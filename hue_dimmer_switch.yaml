@@ -169,29 +169,29 @@ action:
   - choose:
     - conditions: '{{ command == ''on_press'' }}'
       sequence:
-      - choose:
-        - conditions: '{{ on_button_mode == ''fixed brightness'' }}'
-          sequence:
+        - choose:
+          - conditions: '{{ on_button_mode == ''fixed brightness'' }}'
+            sequence:
+            - service: light.turn_on
+              data:
+                entity_id : !input 'light'
+                transition: 1
+                brightness: !input 'fixed_brightness'
+          - conditions:
+              - '{{ on_button_mode == ''fixed brightness when on'' }}'
+              - '{{ is_turned_on }}'
+            sequence:
+            - service: light.turn_on
+              data:
+                entity_id : !input 'light'
+                transition: 1
+                brightness: !input 'fixed_brightness'
+          default:
           - service: light.turn_on
             data:
               entity_id : !input 'light'
               transition: 1
-              brightness: !input 'fixed_brightness'
-        - conditions:
-            - '{{ on_button_mode == ''fixed brightness when on'' }}'
-            - '{{ is_turned_on }}'
-          sequence:
-          - service: light.turn_on
-            data:
-              entity_id : !input 'light'
-              transition: 1
-              brightness: !input 'fixed_brightness'
-        default:
-        - service: light.turn_on
-          data:
-            entity_id : !input 'light'
-            transition: 1
-      #- sequence: !input button_on_single
+        #- sequence: !input button_on_single
 
     - conditions: '{{ command == ''on_double_press'' }}'
       sequence: !input button_on_double
