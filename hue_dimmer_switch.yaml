@@ -191,7 +191,7 @@ action:
             data:
               entity_id : !input 'light'
               transition: 1
-        #- sequence: !input button_on_single
+        - sequence: !input button_on_single
 
     - conditions: '{{ command == ''on_double_press'' }}'
       sequence: !input button_on_double
