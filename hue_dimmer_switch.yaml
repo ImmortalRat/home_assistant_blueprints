@@ -93,6 +93,12 @@ blueprint:
           max: 255.0
           mode: slider
           step: 1.0
+    button_on_single:
+      name: On button - Single press
+      description: Action to run when pressing the on button after lights are turned on
+      default: []
+      selector:
+        action:
     button_on_double:
       name: On button - Double press
       description: Action to run when double pressing the on button
@@ -108,6 +114,12 @@ blueprint:
     button_on_long:
       name: On button - Long press (repeating)
       description: Action to run when holding down the on button
+      default: []
+      selector:
+        action:
+    button_off_single:
+      name: Off button - Single press
+      description: Action to run when  pressing the off button after lights are turned off
       default: []
       selector:
         action:
@@ -179,6 +191,7 @@ action:
           data:
             entity_id : !input 'light'
             transition: 1
+      - !input button_on_single
 
     - conditions: '{{ command == ''on_double_press'' }}'
       sequence: !input button_on_double
@@ -195,6 +208,7 @@ action:
         data:
           entity_id : !input 'light'
           transition: 1
+      - !input button_off_single
 
     - conditions: '{{ command == ''off_double_press'' }}'
       sequence: !input button_off_double
