@@ -204,11 +204,11 @@ action:
 
     - conditions: '{{ command == ''off_press'' }}'
       sequence:
+        - sequence: !input button_off_single
         - service: light.turn_off
           data:
             entity_id : !input 'light'
             transition: 1
-        - sequence: !input button_off_single
 
     - conditions: '{{ command == ''off_double_press'' }}'
       sequence: !input button_off_double
