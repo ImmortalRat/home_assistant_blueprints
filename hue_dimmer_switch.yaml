@@ -172,25 +172,25 @@ action:
         - choose:
           - conditions: '{{ on_button_mode == ''fixed brightness'' }}'
             sequence:
-            - service: light.turn_on
-              data:
-                entity_id : !input 'light'
-                transition: 1
-                brightness: !input 'fixed_brightness'
+              - service: light.turn_on
+                data:
+                  entity_id : !input 'light'
+                  transition: 1
+                  brightness: !input 'fixed_brightness'
           - conditions:
               - '{{ on_button_mode == ''fixed brightness when on'' }}'
               - '{{ is_turned_on }}'
             sequence:
+              - service: light.turn_on
+                data:
+                  entity_id : !input 'light'
+                  transition: 1
+                  brightness: !input 'fixed_brightness'
+          default:
             - service: light.turn_on
               data:
                 entity_id : !input 'light'
                 transition: 1
-                brightness: !input 'fixed_brightness'
-          default:
-          - service: light.turn_on
-            data:
-              entity_id : !input 'light'
-              transition: 1
         - sequence: !input button_on_single
 
     - conditions: '{{ command == ''on_double_press'' }}'
@@ -204,11 +204,11 @@ action:
 
     - conditions: '{{ command == ''off_press'' }}'
       sequence:
-      - service: light.turn_off
-        data:
-          entity_id : !input 'light'
-          transition: 1
-      - sequence: !input button_off_single
+        - service: light.turn_off
+          data:
+            entity_id : !input 'light'
+            transition: 1
+        - sequence: !input button_off_single
 
     - conditions: '{{ command == ''off_double_press'' }}'
       sequence: !input button_off_double
@@ -221,50 +221,50 @@ action:
 
     - conditions: '{{ command == ''up_press'' }}'
       sequence:
-      - service: light.turn_on
-        data:
-          entity_id : !input 'light'
-          brightness_step: 25
-          transition: 1
+        - service: light.turn_on
+          data:
+            entity_id : !input 'light'
+            brightness_step: 25
+            transition: 1
   
     - conditions: '{{ command == ''up_hold'' }}'
       sequence:
-      - service: light.turn_on
-        data:
-          entity_id : !input 'light'
-          brightness_step: 50
-          transition: 1
+        - service: light.turn_on
+          data:
+            entity_id : !input 'light'
+            brightness_step: 50
+            transition: 1
   
     - conditions: '{{ command == ''down_press'' }}'
       sequence:
       - choose:
         - conditions: '{{ (cur_brightness - 25) >= min_brightness }}'
           sequence:
+            - service: light.turn_on
+              data:
+                entity_id : !input 'light'
+                transition: 1
+                brightness_step: -25
+        default:
           - service: light.turn_on
             data:
               entity_id : !input 'light'
               transition: 1
-              brightness_step: -25
-        default:
-        - service: light.turn_on
-          data:
-            entity_id : !input 'light'
-            transition: 1
-            brightness: !input 'min_brightness'
+              brightness: !input 'min_brightness'
   
     - conditions: '{{ command == ''down_hold'' }}'
       sequence:
-      - choose:
-        - conditions: '{{ (cur_brightness - 50) >= min_brightness }}'
-          sequence:
-          - service: light.turn_on
-            data:
-              entity_id : !input 'light'
-              transition: 1
-              brightness_step: -50
-        default:
-        - service: light.turn_on
-          data:
-            entity_id : !input 'light'
-            transition: 1
-            brightness: !input 'min_brightness'
+        - choose:
+          - conditions: '{{ (cur_brightness - 50) >= min_brightness }}'
+            sequence:
+              - service: light.turn_on
+                data:
+                  entity_id : !input 'light'
+                  transition: 1
+                  brightness_step: -50
+          default:
+            - service: light.turn_on
+              data:
+                entity_id : !input 'light'
+                transition: 1
+                brightness: !input 'min_brightness'
